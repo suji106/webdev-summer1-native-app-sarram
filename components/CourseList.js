@@ -15,8 +15,8 @@ class CourseList extends Component {
             })
         this.state = {
             courses: [{
-                id: 90,
-                title: 'test'
+                id: 0,
+                title: ''
             }]
         }
     }

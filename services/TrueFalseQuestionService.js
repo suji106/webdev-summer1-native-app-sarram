@@ -1,7 +1,7 @@
 import 'es6-symbol/implement';
 
 const TRUE_FALSE_URL = "http://192.168.125.2:8080/api/EID/truefalse"
-const ESSAY_DELETE_URL = "http://192.168.125.2:8080/api/truefalse/QID"
+const TRUE_FALSE_DELETE_URL = "http://192.168.125.2:8080/api/truefalse/QID"
 
 let _singleton = Symbol();
 
@@ -12,10 +12,10 @@ export default class TrueFalseQuestionService {
             throw new Error('Singleton!!!');
         this.createTrueFalse = this.createTrueFalse.bind(this);
         this.updateTrueFalse = this.updateTrueFalse.bind(this);
-        this.deleteEssayQuestion = this.deleteEssayQuestion.bind(this);
     }
 
     createTrueFalse(examId, trueFalse) {
+        console.log(examId);
         console.log(trueFalse);
         var json_body = JSON.stringify(trueFalse);
         fetch(TRUE_FALSE_URL.replace('EID', examId), {
@@ -41,9 +41,11 @@ export default class TrueFalseQuestionService {
             .then(response => {return response.json()})
     }
 
-    deleteEssayQuestion(questionId) {
+    deleteTrueFalseQuestion(questionId) {
         console.log(questionId);
-        fetch(ESSAY_DELETE_URL.replace('QID', questionId), {
+        var url = TRUE_FALSE_DELETE_URL.replace('QID', questionId);
+        console.log(url);
+        fetch(url, {
             method: 'DELETE'
         })
     }

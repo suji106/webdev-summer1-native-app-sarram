@@ -1,23 +1,19 @@
 import React from 'react';
 import {StyleSheet, Text, View, StatusBar, ScrollView, TouchableOpacity, TouchableHighlight} from 'react-native';
-import FixedHeader from './elements/FixedHeader'
-import CreateQuestion from './elements/CreateQuestion'
-import TrueFalseQuestionEditor from './elements/TrueFalseQuestionEditor'
+import TrueOrFalseQuestionWidget from './elements/TrueOrFalseQuestionWidget'
 import MultipleChoiceQuestionEditor from './elements/MultipleChoiceQuestionEditor'
 import {createStackNavigator} from 'react-navigation'
-import {Button} from 'react-native-elements'
 import CourseList from './components/CourseList'
 import ModuleList from './components/ModuleList'
 import LessonList from './components/LessonList'
 import WidgetList from './components/WidgetList'
 import QuestionList from './components/QuestionList'
 import Assignment from './components/Assignment'
-import EssayQuestionEditor from './elements/EssayQuestionEditor'
+import EssayQuestionWidget from './elements/EssayQuestionWidget'
 import FillQuestionEditor from './elements/FillQuestionEditor'
 import CreateAssignment from './components/CreateAssignment'
 import CreateExam from './components/CreateExam'
-import CreateEssayQuestion from "./elements/CreateEssayQuestion";
-import CreateTrueFalseQuestion from "./elements/CreateTrueFalseQuestion";
+import FixedHeader from './elements/FixedHeader'
 
 
 class Home extends React.Component {
@@ -29,7 +25,7 @@ class Home extends React.Component {
     render() {
         return (
             <ScrollView>
-                <StatusBar barStyle="light-content" hidden={true}/>
+                {/*<StatusBar barStyle="light-content" hidden={true}/>*/}
                 {/*<FixedHeader/>*/}
 
                 {/*<Button title="Courses"*/}
@@ -58,15 +54,12 @@ const App = createStackNavigator({
     WidgetList,
     QuestionList,
     Assignment,
-    TrueFalseQuestionEditor,
+    TrueOrFalseQuestionWidget,
     MultipleChoiceQuestionEditor,
-    EssayQuestionEditor,
+    EssayQuestionWidget,
     FillQuestionEditor,
     CreateAssignment,
-    CreateExam,
-    CreateQuestion,
-    CreateEssayQuestion,
-    CreateTrueFalseQuestion
+    CreateExam
 });
 
 export default App;

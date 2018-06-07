@@ -4,7 +4,7 @@ import {ListItem, Text, FormLabel, FormInput, FormValidationMessage, CheckBox, B
 import TrueFalseQuestionService from "../services/TrueFalseQuestionService";
 
 class CreateTrueFalseQuestion extends Component {
-    static navigationOptions = {title: 'Add True or False Question'}
+    static navigationOptions = {title: 'True or False'}
 
     constructor(props) {
         super(props)
@@ -50,6 +50,36 @@ class CreateTrueFalseQuestion extends Component {
             .navigate("WidgetList")
     }
 
+    deleteRequired() {
+        const {navigation} = this.props;
+        const questionId = navigation.getParam("questionId");
+
+        if (questionId > 0)
+            return (
+                <TouchableHighlight
+                    style={styles.button}
+                    onPress={this.deleteEssayQuestion}>
+                    <Text>
+                        Delete
+                    </Text>
+                </TouchableHighlight>
+            );
+        else {
+            return (
+                <TouchableHighlight
+                    style={styles.button}
+                    onPress={() => {
+                        this.props.navigation
+                            .navigate("WidgetList", {lessonId: this.state.lessonId})
+                    }}>
+                    <Text>
+                        Cancel
+                    </Text>
+                </TouchableHighlight>
+            );
+        }
+    }
+
     updateForm(newState) {
         this.setState(newState)
     }
@@ -90,24 +120,6 @@ class CreateTrueFalseQuestion extends Component {
                           checked={this.state.isTrue}
                           title='The answer is true'/>
 
-                <TouchableHighlight
-                    style={styles.button}
-                    onPress={this.createTrueFalseQuestion}>
-                    <Text>
-                        Submit
-                    </Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                    style={styles.button}
-                    onPress={() => {
-                        this.props.navigation
-                            .navigate("WidgetList")
-                    }}>
-                    <Text>
-                        Cancel
-                    </Text>
-                </TouchableHighlight>
-
                 <TextInput style={styles.niceText}>Preview</TextInput>
 
                 <View style={styles.rows}>
@@ -117,6 +129,17 @@ class CreateTrueFalseQuestion extends Component {
 
                 <Text style={styles.description}>{this.state.description}</Text>
                 <CheckBox checked={false} title='Select true or false!'/>
+
+                <TouchableHighlight
+                    style={styles.button}
+                    onPress={this.createTrueFalseQuestion}>
+                    <Text>
+                        Submit
+                    </Text>
+                </TouchableHighlight>
+
+                {this.deleteRequired()}
+
             </ScrollView>
         )
     }

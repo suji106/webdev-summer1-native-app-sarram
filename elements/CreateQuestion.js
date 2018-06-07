@@ -13,7 +13,7 @@ const questions = [
     },
     {
         title: 'Question 3', subtitle: 'True or false',
-        icon: 'check', editor: 'TrueFalseQuestionEditor'
+        icon: 'check', editor: 'TrueOrFalseQuestionWidget'
     },
     {
         title: 'Question 4', subtitle: 'Essay',
