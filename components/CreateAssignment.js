@@ -1,16 +1,14 @@
 import React, {Component} from 'react'
-import {View, Alert, StyleSheet, TextInput, TouchableHighlight} from 'react-native'
+import {View, Alert, StyleSheet, TextInput} from 'react-native'
 import {Text, ListItem, Button} from 'react-native-elements'
 import {FormLabel, FormInput, FormValidationMessage}
     from 'react-native-elements'
 import WidgetList from "./WidgetList";
-import AssignmentService from '../services/AssignmentService'
 
-class Assignment extends Component {
+class CreateAssignment extends Component {
     static navigationOptions = {title: 'Assignment'}
 
     constructor(props) {
-        console.log("constructor");
         super(props)
         this.state = {
             assignment: {
@@ -23,43 +21,53 @@ class Assignment extends Component {
             },
             assignmentId: "",
             lessonId: props.lessonId,
+            viewer: ""
         }
 
-        this.assignmentService = AssignmentService.instance;
-        this.updateAssignment = this.updateAssignment.bind(this);
-        this.deleteAssignment = this.deleteAssignment.bind(this);
+        this.createAssignment = this.createAssignment.bind(this);
+        this.submitDescription = this.submitDescription.bind(this);
     }
 
     componentDidMount() {
-        console.log("mounting");
         const {navigation} = this.props;
-        const assignmentId = navigation.getParam("assignmentId")
+        //const assignmentId = navigation.getParam("assignmentId")
         const lessonId = navigation.getParam("lessonId")
-        console.log(assignmentId)
-        let assignment = Object.assign({}, this.state.assignment);
-        assignment.id = assignmentId;
-        this.setState({
-            assignment: assignment,
-            assignmentId: assignmentId,
-            lessonId: lessonId
-        });
-
-        this.getAssignment(assignmentId)
+        this.setState({lessonId: lessonId})
+        // fetch("http://192.168.125.2:8080/api/assignment/" + assignmentId)
+        //     .then(response => (response.json()))
+        //     .then(assignment => this.setState({assignment: assignment, assignmentId: assignmentId, lessonId: lessonId}))
     }
 
-    getAssignment(assignmentId) {
-        console.log("gettingAssignment " + assignmentId)
-        fetch("http://192.168.125.2:8080/api/assignment/" + assignmentId)
-            .then(response => (response.json()))
-            .then(assignment => this.setState({assignment: assignment}))
+    updateForm(newState) {
+        this.setState(newState)
     }
 
-    updateAssignment(){
-        console.log("updatingAssignment");
-        console.log(this.state);
+    viewAssignment() {
+        var assignment = this.state.assignment;
+        return (
+            <View>
+                <View style={styles.rows}>
+                    <Text style={styles.niceText}>
+                        {assignment.title}
+                    </Text>
+                    <Text style={styles.niceText}>
+                        {assignment.points}pts
+                    </Text>
+                </View>
+                <Text style={styles.description}>
+                    {assignment.description}
+                </Text>
+                <FormInput placeholder='give the answer here'/>
+                <Button title='Submit'/>
+            </View>
+        )
+    }
+
+    submitDescription() {
+        console.log("submittingDescription");
+        console.log(this.state.assignment);
         var assignment = this.state.assignment;
         var assg_json = {
-            id: this.state.assignmentId,
             text: assignment.text,
             title: assignment.title,
             points: assignment.points,
@@ -67,31 +75,25 @@ class Assignment extends Component {
             widgetType: "Assignment",
         };
 
-        console.log(this.props.navigation);
-        let renderWidgets = this.props.navigation.getParam("func");
-        var lessonId = this.state.lessonId
+        var json_body = JSON.stringify(assg_json);
 
-        this.assignmentService.updateAssignment(lessonId, assg_json)
-            //.then(() => this.props.navigation
-            //.navigate("WidgetList", {lessonId: lessonId}))
-            //.then(() => renderWidgets());
+        fetch("http://192.168.125.2:8080/api/lesson/" + this.state.lessonId + "/assignment", {
+            body: json_body,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'POST'
+        });
+        console.log(this.props);
         this.props.navigation
-        .navigate("WidgetList", {lessonId: lessonId})
+            .navigate("WidgetList", {lessonId: this.state.lessonId})
     }
 
-    deleteAssignment() {
-        this.assignmentService.deleteAssignment(this.state.assignment.id);
-        this.props.navigation
-            .navigate("WidgetList", {lessonId: this.state.lessonId});
-    }
-
-    updateForm(newState) {
-        this.setState(newState);
-    }
-
-    render() {
-        console.log(this.state)
+    createAssignment() {
         var assignment = this.state.assignment;
+
+        console.log("creatingAssignment");
+
         return (
             <View>
                 <View>
@@ -144,15 +146,7 @@ class Assignment extends Component {
                                    }
                                })
                            }/>
-                <Button onPress={this.updateAssignment} title='Submit'/>
-
-                <TouchableHighlight
-                    style={styles.button}
-                    onPress={this.deleteAssignment}>
-                    <Text>
-                        Delete Assignment
-                    </Text>
-                </TouchableHighlight>
+                <Button onPress={this.submitDescription} title='Submit'/>
 
                 <Text h2>
                     Preview
@@ -171,6 +165,16 @@ class Assignment extends Component {
                 </Text>
                 <FormInput placeholder='give the answer here'/>
                 <Button title='Submit'/>
+
+            </View>
+        )
+    }
+
+    render() {
+        console.log(this.props.params);
+        return (
+            <View>
+                {this.createAssignment()}
             </View>
         )
     }
@@ -183,15 +187,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    button: {
-        alignItems: 'center',
-        backgroundColor: '#ffc515',
-        padding: 25,
-        borderWidth: 2,
-        borderColor: '#ff711a',
-        marginTop: 30,
-        marginBottom: 50
     },
     rows: {
         flexDirection: 'row',
@@ -210,4 +205,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Assignment
+export default CreateAssignment

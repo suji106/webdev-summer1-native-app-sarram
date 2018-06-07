@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View} from 'react-native'
+import {StyleSheet, View} from 'react-native'
 import {Text, ListItem} from 'react-native-elements'
 
 class ModuleList extends Component {
@@ -25,14 +25,15 @@ class ModuleList extends Component {
 
     render() {
         return (
-            <View style={{padding: 15}}>
+            <View style={styles.container}>
                 {this.state.modules.map((module, index) => (
-                    <ListItem
+                    <ListItem style={styles.niceText}
                         onPress={() => this.props.navigation
                             .navigate("LessonList", {
                                 courseId:
                                 this.state.courseId, moduleId: module.id
                             })}
+                        leftIcon={{name: 'view-module'}}
                         key={index}
                         title={module.title}/>
                 ))}
@@ -40,5 +41,31 @@ class ModuleList extends Component {
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        padding: 15,
+        backgroundColor: 'orange',
+    },
+    rows: {
+        flexDirection: 'row',
+        backgroundColor: 'pink',
+        justifyContent: 'space-between'
+    },
+    niceText: {
+        fontSize: 25,
+        color: 'blue',
+        backgroundColor: 'powderblue'
+    },
+    description: {
+        padding: 20,
+        fontSize: 15
+    },
+    formBox: {
+        borderBottomColor: '#000000',
+        borderBottomWidth: 1
+    }
+});
+
 
 export default ModuleList
