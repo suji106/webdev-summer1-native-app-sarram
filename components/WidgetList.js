@@ -64,7 +64,7 @@ class WidgetList extends Component {
 
     render() {
         return (
-            <ScrollView style={styles.container}>
+            <ScrollView style={styles.container} keyboardShouldPersistTaps={true}>
                 {this.state.widgets.map(
                     (widget, index) => (
                         <ListItem style={styles.niceText}
@@ -76,7 +76,7 @@ class WidgetList extends Component {
                                                   func: this.renderAll
                                               })
 
-                                      if (widget.widgetType === "AssignmentWidget")
+                                      if (widget.widgetType === "Assignment")
                                           this.props.navigation
                                               .navigate("AssignmentWidget", {
                                                   assignmentId: widget.id, lessonId: this.state.lessonId,

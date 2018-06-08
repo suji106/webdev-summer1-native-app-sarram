@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {View, ScrollView, TextInput, StyleSheet, TouchableHighlight} from 'react-native'
-import {ListItem, Text, FormLabel, FormInput, FormValidationMessage, CheckBox, Button} from 'react-native-elements'
+import {ListItem, Text, FormLabel, FormInput, FormValidationMessage, CheckBox, Divider} from 'react-native-elements'
 import FillInTheBlanksQuestionService from "../services/FillInTheBlanksQuestionService";
 
 class FillInTheBlanksQuestionWidget extends Component {
@@ -9,7 +9,7 @@ class FillInTheBlanksQuestionWidget extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            title: '',
+            title: 'Title',
             description: '',
             points: 0,
             blanks: 'Hello'
@@ -26,14 +26,16 @@ class FillInTheBlanksQuestionWidget extends Component {
         const {navigation} = this.props;
         const questionId = navigation.getParam("questionId")
 
-        fetch("http://s-arram-java-native.herokuapp.com/api/fill/" + questionId)
-            .then(response => (response.json()))
-            .then(question => this.setState({
-                title: question.title,
-                description: question.description,
-                points: question.points,
-                blanks: question.blanks
-            }))
+        if (questionId > 0) {
+            fetch("http://s-arram-java-native.herokuapp.com/api/fill/" + questionId)
+                .then(response => (response.json()))
+                .then(question => this.setState({
+                    title: question.title,
+                    description: question.description,
+                    points: question.points,
+                    blanks: question.blanks
+                }))
+        }
     }
 
     createFillQuestion() {
@@ -75,20 +77,6 @@ class FillInTheBlanksQuestionWidget extends Component {
                     </Text>
                 </TouchableHighlight>
             );
-        else {
-            return (
-                <TouchableHighlight
-                    style={styles.button}
-                    onPress={() => {
-                        this.props.navigation
-                            .navigate("WidgetList")
-                    }}>
-                    <Text>
-                        Cancel
-                    </Text>
-                </TouchableHighlight>
-            );
-        }
     }
 
     updateForm(newState) {
@@ -105,15 +93,17 @@ class FillInTheBlanksQuestionWidget extends Component {
         console.log("generating Blanks");
         var str = this.state.blanks;
 
-        var regExp = /\[([^)]+)\]/;
-        str = str.replace(new RegExp(regExp), "kkkk")
-        var matches = str.split(' ');
+        var regExp = /\{([^{)]+)\}/;
+        str = str.replace(/\[/g, '{').replace(/\]/g, '}')
+        str = str.replace(new RegExp(regExp), "blank")
+        var matches = str.replace('\n',' ').split(' ');
+        console.log(matches);
 
         return (
             <View style={{flexDirection: 'row'}}>
                 {matches.map((item, index) => {
-                    console.log(item);
-                        if (item.toString() === 'kkkk') {
+                        console.log(item);
+                        if (item.toString() === 'blank') {
                             return (
                                 <TextInput key={index}>
 
@@ -149,7 +139,7 @@ class FillInTheBlanksQuestionWidget extends Component {
     render() {
 
         return (
-            <ScrollView>
+            <ScrollView keyboardShouldPersistTaps={true}>
                 <FormLabel>Title</FormLabel>
                 <FormInput onChangeText={
                     text => this.updateForm({title: text})
@@ -187,24 +177,47 @@ class FillInTheBlanksQuestionWidget extends Component {
                            }
                 />
 
-                <Text style={styles.niceText}>Preview</Text>
+                <TouchableHighlight
+                    style={styles.button}
+                    onPress={this.createFillQuestion}>
+                    <Text>
+                        Submit Question
+                    </Text>
+                </TouchableHighlight>
+
+                <TouchableHighlight
+                    style={styles.button}
+                    onPress={() => {
+                        this.props.navigation
+                            .navigate("WidgetList")
+                    }}>
+                    <Text>
+                        Cancel
+                    </Text>
+                </TouchableHighlight>
+
+                <Divider style={{
+                    backgroundColor:
+                        'black'
+                }}/>
+                <Text style={{textAlign: 'center', justifyContent: 'center'}}>Preview</Text>
+                <Divider style={{
+                    backgroundColor:
+                        'black'
+                }}/>
 
                 <View style={styles.rows}>
-                    <Text style={styles.niceText}>{this.state.title}</Text>
-                    <Text style={styles.niceText}>{this.state.points}</Text>
+                    <Text h5>
+                        {this.state.title}
+                    </Text>
+                    <Text h5>
+                        {this.state.points}pts
+                    </Text>
                 </View>
 
                 <Text style={styles.description}>{this.state.description}</Text>
 
                 {this.generateBlanks()}
-
-                <TouchableHighlight
-                    style={styles.button}
-                    onPress={this.createFillQuestion}>
-                    <Text>
-                        Submit
-                    </Text>
-                </TouchableHighlight>
 
                 {this.deleteRequired()}
 
@@ -229,7 +242,7 @@ const styles = StyleSheet.create({
     },
     rows: {
         flexDirection: 'row',
-        backgroundColor: 'pink',
+        backgroundColor: '#ffe250',
         justifyContent: 'space-between',
     },
     niceText: {

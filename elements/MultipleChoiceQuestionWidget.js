@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import {View, ScrollView, TextInput, StyleSheet, TouchableHighlight} from 'react-native'
-import {ListItem, Text, FormLabel, FormInput, FormValidationMessage, Button, Divider} from 'react-native-elements'
+import {View, ScrollView, TextInput, StyleSheet, TouchableHighlight, Button} from 'react-native'
+import {ListItem, Text, FormLabel, FormInput, FormValidationMessage, Divider} from 'react-native-elements'
 import MultipleChoiceQuestionService from "../services/MultipleChoiceQuestionService";
 import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button';
 
@@ -10,7 +10,7 @@ class MultipleChoiceQuestionWidget extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            title: '',
+            title: 'Title',
             description: '',
             points: 0,
             options: '',
@@ -176,7 +176,7 @@ class MultipleChoiceQuestionWidget extends Component {
                     style={styles.button}
                     onPress={this.createMultiQuestion}>
                     <Text>
-                        Submit
+                        Submit Question
                     </Text>
                 </TouchableHighlight>
 
@@ -186,11 +186,12 @@ class MultipleChoiceQuestionWidget extends Component {
                     backgroundColor:
                         'black'
                 }}/>
-                <Text h4>Preview</Text>
+                <Text style={{textAlign: 'center', justifyContent: 'center'}}>Preview</Text>
                 <Divider style={{
                     backgroundColor:
                         'black'
                 }}/>
+
                 <View style={questionStyles.rows}>
                     <Text h5>
                         {this.state.title}
@@ -228,14 +229,14 @@ class MultipleChoiceQuestionWidget extends Component {
 const styles = StyleSheet.create({
     container: {
         padding: 15,
-        backgroundColor: '#ff5903',
+        backgroundColor: '#ff2313',
     },
     button: {
         alignItems: 'center',
         backgroundColor: '#ffc515',
         padding: 25,
         borderWidth: 2,
-        borderColor: '#ff711a',
+        borderColor: '#1636ff',
         marginTop: 10,
         marginBottom: 10
     },

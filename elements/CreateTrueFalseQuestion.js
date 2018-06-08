@@ -57,7 +57,7 @@ class CreateTrueFalseQuestion extends Component {
     render() {
         // let trueFalse = this.state.trueFalse
         return (
-            <ScrollView>
+            <ScrollView keyboardShouldPersistTaps={true}>
                 <FormLabel>Title</FormLabel>
                 <FormInput onChangeText={
                     text => this.updateForm({title: text})

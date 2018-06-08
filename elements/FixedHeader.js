@@ -6,7 +6,7 @@ const FixedHeader = () => (
         centerComponent={{
             text: 'Course Manager',
             style: {color: '#f8ffff'},
-            fontSize: 20,
+            fontSize: 50,
         }}
         />
 )

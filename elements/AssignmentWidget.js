@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import {View, Alert, StyleSheet, TextInput, TouchableHighlight} from 'react-native'
-import {Text, ListItem, Button} from 'react-native-elements'
+import {View, ScrollView, StyleSheet, TextInput, TouchableHighlight, Button} from 'react-native'
+import {Text, Divider} from 'react-native-elements'
 import {FormLabel, FormInput, FormValidationMessage}
     from 'react-native-elements'
 import WidgetList from "../components/WidgetList";
@@ -76,7 +76,7 @@ class AssignmentWidget extends Component {
             //.navigate("WidgetList", {lessonId: lessonId}))
             //.then(() => renderWidgets());
         this.props.navigation
-        .navigate("WidgetList", {lessonId: lessonId})
+        .navigate("LessonList")
     }
 
     deleteAssignment() {
@@ -93,7 +93,7 @@ class AssignmentWidget extends Component {
         console.log(this.state)
         var assignment = this.state.assignment;
         return (
-            <View>
+            <ScrollView keyboardShouldPersistTaps={true}>
                 <View>
                     <FormInput placeholder='Enter title here!'
                                onChangeText={
@@ -154,24 +154,56 @@ class AssignmentWidget extends Component {
                     </Text>
                 </TouchableHighlight>
 
-                <Text h2>
-                    Preview
-                </Text>
+                <Divider style={{
+                    backgroundColor:
+                        'black'
+                }}/>
+                <Text style={{textAlign: 'center', justifyContent: 'center'}}>Preview</Text>
+                <Divider style={{
+                    backgroundColor: 'black'
+                }}/>
 
                 <View style={styles.rows}>
-                    <Text style={styles.niceText}>
-                        {assignment.title}
+                    <Text h5>
+                        {this.state.title}
                     </Text>
-                    <Text style={styles.niceText}>
-                        {assignment.points}pts
+                    <Text h5>
+                        {this.state.points}pts
                     </Text>
                 </View>
                 <Text style={styles.description}>
                     {assignment.description}
                 </Text>
-                <FormInput placeholder='give the answer here'/>
-                <Button title='Submit'/>
-            </View>
+
+                <View style={{padding: 5}}>
+                    <Text h5>Essay Answer</Text>
+
+                    <TextInput multiline={true}
+                               style={{
+                                   height: 100,
+                                   backgroundColor: 'white',
+                                   borderBottomWidth: 0,
+                                   borderWidth: 2
+                               }}
+
+                               placeholder='Enter the answer here'
+                               />
+
+
+                    <Text h5>Upload File</Text>
+                    <Button style={{padding: 10, width: 120}} title='upload'/>
+                </View>
+
+                <View style={{padding: 5}}>
+                    <FormLabel>Submit a link</FormLabel>
+                    <FormInput/>
+                </View>
+
+                <Button style={{padding: 10}} title='Submit'/>
+
+                <Button style={{padding: 10}} title='Cancel'/>
+
+            </ScrollView>
         )
     }
 }
@@ -186,7 +218,7 @@ const styles = StyleSheet.create({
     },
     button: {
         alignItems: 'center',
-        backgroundColor: '#ffc515',
+        backgroundColor: '#2c0cff',
         padding: 25,
         borderWidth: 2,
         borderColor: '#ff711a',

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {View, ScrollView, TextInput, StyleSheet, TouchableHighlight} from 'react-native'
-import {ListItem, Text, FormLabel, FormInput, FormValidationMessage, CheckBox, Button} from 'react-native-elements'
+import {ListItem, Text, FormLabel, FormInput, FormValidationMessage, CheckBox, Divider} from 'react-native-elements'
 import TrueFalseQuestionService from "../services/TrueFalseQuestionService";
 
 class TrueOrFalseQuestionWidget extends Component {
@@ -9,7 +9,7 @@ class TrueOrFalseQuestionWidget extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            title: '',
+            title: 'Title',
             description: '',
             points: 0,
             isTrue: true
@@ -74,20 +74,6 @@ class TrueOrFalseQuestionWidget extends Component {
                     </Text>
                 </TouchableHighlight>
             );
-        else {
-            return (
-                <TouchableHighlight
-                    style={styles.button}
-                    onPress={() => {
-                        this.props.navigation
-                            .navigate("WidgetList", {lessonId: this.state.lessonId})
-                    }}>
-                    <Text>
-                        Cancel
-                    </Text>
-                </TouchableHighlight>
-            );
-        }
     }
 
     updateForm(newState) {
@@ -130,23 +116,46 @@ class TrueOrFalseQuestionWidget extends Component {
                           checked={this.state.isTrue}
                           title='The answer is true'/>
 
-                <Text style={styles.niceText}>Preview</Text>
-
-                <View style={styles.rows}>
-                    <Text style={styles.niceText}>{this.state.title}</Text>
-                    <Text style={styles.niceText}>{this.state.points}</Text>
-                </View>
-
-                <Text style={styles.description}>{this.state.description}</Text>
-                <CheckBox checked={false} title='Select true or false!'/>
-
                 <TouchableHighlight
                     style={styles.button}
                     onPress={this.createTrueFalseQuestion}>
                     <Text>
-                        Submit
+                        Submit Question
                     </Text>
                 </TouchableHighlight>
+
+                <TouchableHighlight
+                    style={styles.button}
+                    onPress={() => {
+                        this.props.navigation
+                            .navigate("WidgetList", {lessonId: this.state.lessonId})
+                    }}>
+                    <Text>
+                        Cancel
+                    </Text>
+                </TouchableHighlight>
+
+                <Divider style={{
+                    backgroundColor:
+                        'black'
+                }}/>
+                <Text style={{textAlign: 'center', justifyContent: 'center'}}>Preview</Text>
+                <Divider style={{
+                    backgroundColor:
+                        'black'
+                }}/>
+
+                <View style={styles.rows}>
+                    <Text h5>
+                        {this.state.title}
+                    </Text>
+                    <Text h5>
+                        {this.state.points}pts
+                    </Text>
+                </View>
+
+                <Text style={styles.description}>{this.state.description}</Text>
+                <CheckBox checked={false} title='Select true or false!'/>
 
                 {this.deleteRequired()}
 
@@ -171,7 +180,7 @@ const styles = StyleSheet.create({
     },
     rows: {
         flexDirection: 'row',
-        backgroundColor: 'pink',
+        backgroundColor: '#ffe250',
         justifyContent: 'space-between',
     },
     niceText: {

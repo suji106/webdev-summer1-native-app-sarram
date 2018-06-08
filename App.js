@@ -13,11 +13,12 @@ import EssayQuestionWidget from './elements/EssayQuestionWidget'
 import FillInTheBlanksQuestionWidget from './elements/FillInTheBlanksQuestionWidget'
 import CreateAssignment from './elements/CreateAssignment'
 import CreateExam from './elements/CreateExam'
-import FixedHeader from './elements/FixedHeader'
 
 console.disableYellowBox = true;
 
 class Home extends React.Component {
+
+    static navigationOptions = {title: 'Home'}
 
     constructor(props) {
         super(props)
@@ -25,13 +26,8 @@ class Home extends React.Component {
 
     render() {
         return (
-            <ScrollView>
-                {/*<StatusBar barStyle="light-content" hidden={true}/>*/}
-                {/*<FixedHeader/>*/}
-
-                {/*<Button title="Courses"*/}
-                        {/*onPress={() => this.props.navigation*/}
-                            {/*.navigate('CourseList')}/>*/}
+            <ScrollView keyboardShouldPersistTaps={true}>
+                <StatusBar barStyle="light-content" hidden={true}/>
 
                 <TouchableHighlight
                     style={styles.button}
@@ -67,8 +63,7 @@ export default App;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: 'yellow',
         alignItems: 'center',
         justifyContent: 'center',
     },

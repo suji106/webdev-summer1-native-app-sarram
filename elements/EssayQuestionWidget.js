@@ -1,6 +1,6 @@
 import React from 'react'
-import {StyleSheet, View, ScrollView, TextInput, TouchableHighlight} from 'react-native'
-import {Text, Button, CheckBox, FormInput} from 'react-native-elements'
+import {StyleSheet, View, ScrollView, TextInput, TouchableHighlight, Button} from 'react-native'
+import {Text, Divider, FormInput} from 'react-native-elements'
 import EssayQuestionService from "../services/EssayQuestionService";
 
 
@@ -11,7 +11,7 @@ class FillQuestionEditor extends React.Component {
         super(props)
         this.state = {
             essay: {
-                title: '',
+                title: 'Title',
                 description: '',
                 points: 0
             },
@@ -85,24 +85,10 @@ class FillQuestionEditor extends React.Component {
                     style={styles.button}
                     onPress={this.deleteEssayQuestion}>
                     <Text>
-                        Delete
+                        Delete Question
                     </Text>
                 </TouchableHighlight>
             );
-        else {
-            return (
-                <TouchableHighlight
-                    style={styles.button}
-                    onPress={() => {
-                        this.props.navigation
-                            .navigate("WidgetList", {lessonId: this.state.lessonId})
-                    }}>
-                    <Text>
-                        Cancel
-                    </Text>
-                </TouchableHighlight>
-            );
-        }
     }
 
     render() {
@@ -149,27 +135,63 @@ class FillQuestionEditor extends React.Component {
                                })
                            }/>
 
+                <Divider style={{
+                    backgroundColor:
+                        'black'
+                }}/>
+
+                <TouchableHighlight
+                    style={styles.button}
+                    onPress={this.createEssayQuestion}>
+                    <Text>
+                        Submit Question
+                    </Text>
+                </TouchableHighlight>
+
+                <TouchableHighlight
+                    style={styles.button}
+                    onPress={() => {
+                        this.props.navigation
+                            .navigate("WidgetList", {lessonId: this.state.lessonId})
+                    }}>
+                    <Text>
+                        Cancel
+                    </Text>
+                </TouchableHighlight>
+
+                <Divider style={{
+                    backgroundColor:
+                        'black'
+                }}/>
                 <Text style={{textAlign: 'center', justifyContent: 'center'}}>Preview</Text>
+                <Divider style={{
+                    backgroundColor:
+                        'black'
+                }}/>
 
                 <View style={styles.rows}>
-                    <Text style={styles.niceText}>
-                        {this.state.essay.title}
+                    <Text h5>
+                        {this.state.title}
                     </Text>
-                    <Text style={styles.niceText}>
-                        {this.state.essay.points}pts
+                    <Text h5>
+                        {this.state.points}pts
                     </Text>
                 </View>
                 <Text style={styles.description}>
                     {this.state.essay.description}
                 </Text>
 
-                <TouchableHighlight
-                    style={styles.button}
-                    onPress={this.createEssayQuestion}>
-                    <Text>
-                        Submit
-                    </Text>
-                </TouchableHighlight>
+                <TextInput multiline={true}
+                           style={{
+                               height: 100,
+                               backgroundColor: 'white',
+                               borderBottomWidth: 0,
+                               borderWidth: 2
+                           }}
+                           placeholder='Student, please write the response here!'
+                />
+                <Button title="Cancel"/>
+                <Button title="Submit"/>
 
                 {this.deleteRequired()}
 
@@ -197,13 +219,13 @@ const styles = StyleSheet.create({
     },
     rows: {
         flexDirection: 'row',
-        backgroundColor: 'pink',
+        backgroundColor: '#ffe250',
         justifyContent: 'space-between'
     },
     niceText: {
-        fontSize: 25,
+        fontSize: 12,
         color: 'blue',
-        backgroundColor: 'powderblue'
+        backgroundColor: 'white'
     },
     description: {
         padding: 20,

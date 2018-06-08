@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Alert, StyleSheet, TextInput, TouchableHighlight} from 'react-native'
+import {View, ScrollView, Alert, StyleSheet, TextInput, TouchableHighlight} from 'react-native'
 import {Text, ListItem, Button} from 'react-native-elements'
 import {FormLabel, FormInput, FormValidationMessage}
     from 'react-native-elements'
@@ -63,7 +63,7 @@ class CreateExam extends Component {
         let exam = Object.assign({}, this.state.exam);
 
         return (
-            <View>
+            <ScrollView keyboardShouldPersistTaps={true}>
                 <View>
                     <FormInput placeholder='Enter title here!'
                                onChangeText={
@@ -106,7 +106,7 @@ class CreateExam extends Component {
                         Create Exam
                     </Text>
                 </TouchableHighlight>
-            </View>
+            </ScrollView>
         )
     }
 
