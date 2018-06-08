@@ -95,7 +95,10 @@ class FillInTheBlanksQuestionWidget extends Component {
 
         var regExp = /\{([^{)]+)\}/;
         str = str.replace(/\[/g, '{').replace(/\]/g, '}')
+            
+        while(str.indexOf('{') !== -1 && str.indexOf('}') !== -1)
         str = str.replace(new RegExp(regExp), "blank")
+            
         var matches = str.replace('\n',' ').split(' ');
         console.log(matches);
 
