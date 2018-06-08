@@ -25,7 +25,7 @@ class QuestionList extends Component {
     componentDidMount() {
         const {navigation} = this.props;
         const examId = navigation.getParam("examId")
-        fetch("http://192.168.125.2:8080/api/exam/" + examId)
+        fetch("http://s-arram-java-native.herokuapp.com/api/exam/" + examId)
             .then(response => (response.json()))
             .then(questions => this.setState({questions: questions, examId: examId}))
     }
@@ -86,7 +86,7 @@ class QuestionList extends Component {
         const {navigation} = this.props;
         const examId = navigation.getParam("examId")
         return (
-            <ScrollView style={{padding: 15}}>
+            <ScrollView style={{padding: 15}} keyboardShouldPersistTaps={true}>
                 <Text style={{padding: 10, fontSize: 15, alignItems: 'center', justifyContent: 'center', color: 'blue'}}>
                     Add Question!
                 </Text>

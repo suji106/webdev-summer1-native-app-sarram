@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, StatusBar, ScrollView, TouchableOpacity, TouchableHighlight} from 'react-native';
+import {StyleSheet, Text, View, StatusBar, ScrollView, YellowBox, TouchableHighlight} from 'react-native';
 import {createStackNavigator} from 'react-navigation'
 import CourseList from './components/CourseList'
 import ModuleList from './components/ModuleList'
@@ -15,6 +15,7 @@ import CreateAssignment from './elements/CreateAssignment'
 import CreateExam from './elements/CreateExam'
 import FixedHeader from './elements/FixedHeader'
 
+console.disableYellowBox = true;
 
 class Home extends React.Component {
 

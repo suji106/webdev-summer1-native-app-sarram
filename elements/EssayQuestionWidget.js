@@ -31,7 +31,7 @@ class FillQuestionEditor extends React.Component {
         const questionId = navigation.getParam("questionId")
 
         if (questionId > 0) {
-            fetch("http://192.168.125.2:8080/api/essay/" + questionId)
+            fetch("http://s-arram-java-native.herokuapp.com/api/essay/" + questionId)
                 .then(response => (response.json()))
                 .then(question => this.setState({
                     essay: {
@@ -107,31 +107,29 @@ class FillQuestionEditor extends React.Component {
 
     render() {
         return (
-            <ScrollView>
-                <View>
-                    <FormInput placeholder='Enter title here!'
-                               onChangeText={
-                                   text => (
-                                       this.updateForm({
-                                           essay: {
-                                               title: text,
-                                               description: this.state.essay.description,
-                                               points: this.state.essay.points
-                                           }
-                                       }))
-                               }/>
-                    <FormInput placeholder='Enter points here!'
-                               onChangeText={
-                                   text => (
-                                       this.updateForm({
-                                           essay: {
-                                               title: this.state.essay.title,
-                                               description: this.state.essay.description,
-                                               points: text
-                                           }
-                                       }))
-                               }/>
-                </View>
+            <ScrollView keyboardShouldPersistTaps={true}>
+                <FormInput placeholder='Enter title here!'
+                           onChangeText={
+                               text => (
+                                   this.updateForm({
+                                       essay: {
+                                           title: text,
+                                           description: this.state.essay.description,
+                                           points: this.state.essay.points
+                                       }
+                                   }))
+                           }/>
+                <FormInput placeholder='Enter points here!'
+                           onChangeText={
+                               text => (
+                                   this.updateForm({
+                                       essay: {
+                                           title: this.state.essay.title,
+                                           description: this.state.essay.description,
+                                           points: text
+                                       }
+                                   }))
+                           }/>
                 <TextInput multiline={true}
                            style={{
                                height: 100,

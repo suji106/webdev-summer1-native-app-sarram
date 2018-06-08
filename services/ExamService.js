@@ -1,7 +1,7 @@
 import 'es6-symbol/implement';
 
-const EXAM_URL = "http://192.168.125.2:8080/api/lesson/LID/exam"
-const EXAM_DELETE_URL = "http://192.168.125.2:8080/api/exam/"
+const EXAM_URL = "http://s-arram-java-native.herokuapp.com/api/lesson/LID/exam"
+const EXAM_DELETE_URL = "http://s-arram-java-native.herokuapp.com/api/exam/"
 
 let _singleton = Symbol();
 

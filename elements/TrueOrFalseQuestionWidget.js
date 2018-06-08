@@ -24,7 +24,7 @@ class TrueOrFalseQuestionWidget extends Component {
         const {navigation} = this.props;
         const questionId = navigation.getParam("questionId")
 
-        fetch("http://192.168.125.2:8080/api/truefalse/" + questionId)
+        fetch("http://s-arram-java-native.herokuapp.com/api/truefalse/" + questionId)
             .then(response => (response.json()))
             .then(question => this.setState({
                 title: question.title,
@@ -97,7 +97,7 @@ class TrueOrFalseQuestionWidget extends Component {
     render() {
         // let trueFalse = this.state.trueFalse
         return (
-            <ScrollView>
+            <ScrollView keyboardShouldPersistTaps={true}>
                 <FormLabel>Title</FormLabel>
                 <FormInput onChangeText={
                     text => this.updateForm({title: text})

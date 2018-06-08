@@ -49,7 +49,7 @@ class AssignmentWidget extends Component {
 
     getAssignment(assignmentId) {
         console.log("gettingAssignment " + assignmentId)
-        fetch("http://192.168.125.2:8080/api/assignment/" + assignmentId)
+        fetch("http://s-arram-java-native.herokuapp.com/api/assignment/" + assignmentId)
             .then(response => (response.json()))
             .then(assignment => this.setState({assignment: assignment}))
     }

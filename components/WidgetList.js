@@ -29,7 +29,7 @@ class WidgetList extends Component {
         const {navigation} = this.props;
         const lessonId = navigation.getParam("lessonId")
         console.log(lessonId);
-        fetch("http://192.168.125.2:8080/api/lesson/" + lessonId + "/widget")
+        fetch("http://s-arram-java-native.herokuapp.com/api/lesson/" + lessonId + "/widget")
             .then(response => (response.json()))
             .then(widgets => this.setState({widgets: widgets, lessonId: lessonId}))
     }
@@ -37,7 +37,7 @@ class WidgetList extends Component {
     renderAll() {
         const {navigation} = this.props;
         const lessonId = navigation.getParam("lessonId")
-        fetch("http://192.168.125.2:8080/api/lesson/" + lessonId + "/widget")
+        fetch("http://s-arram-java-native.herokuapp.com/api/lesson/" + lessonId + "/widget")
             .then(response => (response.json()))
             .then(widgets => this.setState({widgets: widgets, lessonId: lessonId}))
     }

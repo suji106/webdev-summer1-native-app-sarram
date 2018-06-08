@@ -1,7 +1,7 @@
 import 'es6-symbol/implement';
 
-const FILL_URL = "http://192.168.125.2:8080/api/EID/fill"
-const FILL_DELETE_URL = "http://192.168.125.2:8080/api/fill/QID"
+const FILL_URL = "http://s-arram-java-native.herokuapp.com/api/EID/fill"
+const FILL_DELETE_URL = "http://s-arram-java-native.herokuapp.com/api/fill/QID"
 
 let _singleton = Symbol();
 

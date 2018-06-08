@@ -23,7 +23,7 @@ class CreateTrueFalseQuestion extends Component {
         const {navigation} = this.props;
         const questionId = navigation.getParam("questionId")
 
-        fetch("http://192.168.125.2:8080/api/truefalse/" + questionId)
+        fetch("http://s-arram-java-native.herokuapp.com/api/truefalse/" + questionId)
             .then(response => (response.json()))
             .then(question => this.setState({
                 title: question.title,

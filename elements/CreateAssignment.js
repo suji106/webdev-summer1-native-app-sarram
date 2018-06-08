@@ -33,7 +33,7 @@ class CreateAssignment extends Component {
         //const assignmentId = navigation.getParam("assignmentId")
         const lessonId = navigation.getParam("lessonId")
         this.setState({lessonId: lessonId})
-        // fetch("http://192.168.125.2:8080/api/assignment/" + assignmentId)
+        // fetch("http://s-arram-java-native.herokuapp.com/api/assignment/" + assignmentId)
         //     .then(response => (response.json()))
         //     .then(assignment => this.setState({assignment: assignment, assignmentId: assignmentId, lessonId: lessonId}))
     }
@@ -77,7 +77,7 @@ class CreateAssignment extends Component {
 
         var json_body = JSON.stringify(assg_json);
 
-        fetch("http://192.168.125.2:8080/api/lesson/" + this.state.lessonId + "/assignment", {
+        fetch("http://s-arram-java-native.herokuapp.com/api/lesson/" + this.state.lessonId + "/assignment", {
             body: json_body,
             headers: {
                 'Content-Type': 'application/json'
