@@ -34,9 +34,9 @@ class QuestionList extends Component {
         let editor;
         type = type.toString()
         if (type === '0')
-            editor = "MultipleChoiceQuestionEditor"
+            editor = "MultipleChoiceQuestionWidget"
         if (type === '1')
-            editor = "FillQuestionEditor"
+            editor = "FillInTheBlanksQuestionWidget"
         if (type === '2')
             editor = "TrueOrFalseQuestionWidget"
         if (type === '3') {
@@ -49,14 +49,6 @@ class QuestionList extends Component {
         console.log(editor);
         this.props.navigation
             .navigate(editor, {examId: examId})
-    }
-
-    createQuestion() {
-        const {navigation} = this.props;
-        const examId = navigation.getParam("examId")
-
-        this.props.navigation
-            .navigate("CreateQuestion", {examId: examId})
     }
 
     deleteExam() {
@@ -126,13 +118,13 @@ class QuestionList extends Component {
                                         .navigate("TrueOrFalseQuestionWidget", {questionId: question.id, examId: examId})
                                 if (question.type === "MultipleChoice")
                                     this.props.navigation
-                                        .navigate("MultipleChoiceQuestionEditor", {questionId: question.id, examId: examId})
+                                        .navigate("MultipleChoiceQuestionWidget", {questionId: question.id, examId: examId})
                                 if (question.type === "Essay")
                                     this.props.navigation
                                         .navigate("EssayQuestionWidget", {questionId: question.id, examId: examId})
                                 if (question.type === "FillQuestion")
                                     this.props.navigation
-                                        .navigate("FillQuestionEditor", {questionId: question.id, examId: examId})
+                                        .navigate("FillInTheBlanksQuestionWidget", {questionId: question.id, examId: examId})
                             }
                             }
                             key={index}

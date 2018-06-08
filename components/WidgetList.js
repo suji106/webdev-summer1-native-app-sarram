@@ -53,7 +53,7 @@ class WidgetList extends Component {
     }
 
     getIcon(type) {
-        if (type === "Assignment") {
+        if (type === "AssignmentWidget") {
             return 'assignment'
         }
 
@@ -76,9 +76,9 @@ class WidgetList extends Component {
                                                   func: this.renderAll
                                               })
 
-                                      if (widget.widgetType === "Assignment")
+                                      if (widget.widgetType === "AssignmentWidget")
                                           this.props.navigation
-                                              .navigate("Assignment", {
+                                              .navigate("AssignmentWidget", {
                                                   assignmentId: widget.id, lessonId: this.state.lessonId,
                                                   func: this.renderAll
                                               })

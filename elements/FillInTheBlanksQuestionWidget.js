@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import {View, ScrollView, TextInput, StyleSheet, TouchableHighlight} from 'react-native'
 import {ListItem, Text, FormLabel, FormInput, FormValidationMessage, CheckBox, Button} from 'react-native-elements'
-import TrueFalseQuestionService from "../services/TrueFalseQuestionService";
+import FillInTheBlanksQuestionService from "../services/FillInTheBlanksQuestionService";
 
-class TrueOrFalseQuestionWidget extends Component {
-    static navigationOptions = {title: 'True or False'}
+class FillInTheBlanksQuestionWidget extends Component {
+    static navigationOptions = {title: 'Fill in the blank'}
 
     constructor(props) {
         super(props)
@@ -12,52 +12,53 @@ class TrueOrFalseQuestionWidget extends Component {
             title: '',
             description: '',
             points: 0,
-            isTrue: true
+            blanks: 'Hello'
         }
         this.updateForm = this.updateForm.bind(this);
-        this.createTrueFalseQuestion = this.createTrueFalseQuestion.bind(this);
-        this.deleteTrueFalseQuestion = this.deleteTrueFalseQuestion.bind(this);
-        this.trueFalseService = TrueFalseQuestionService.instance;
+        this.createFillQuestion = this.createFillQuestion.bind(this);
+        this.deleteFillQuestion = this.deleteFillQuestion.bind(this);
+        this.generateBlanks = this.generateBlanks.bind(this);
+        this.getBlanks = this.getBlanks.bind(this);
+        this.fillService = FillInTheBlanksQuestionService.instance;
     }
 
     componentDidMount() {
         const {navigation} = this.props;
         const questionId = navigation.getParam("questionId")
 
-        fetch("http://192.168.125.2:8080/api/truefalse/" + questionId)
+        fetch("http://192.168.125.2:8080/api/fill/" + questionId)
             .then(response => (response.json()))
             .then(question => this.setState({
                 title: question.title,
                 description: question.description,
                 points: question.points,
-                isTrue: question.isTrue
+                blanks: question.blanks
             }))
     }
 
-    createTrueFalseQuestion() {
-        console.log("creatingTrueFalseQuestion");
+    createFillQuestion() {
+        console.log("creatingFillQuestion");
         const {navigation} = this.props;
         const examId = navigation.getParam("examId")
         const questionId = navigation.getParam("questionId")
 
-        var trueFalse = this.state;
-        trueFalse.type = 'TrueFalse';
-        if(questionId > 0){
-            trueFalse.id = questionId
+        var fill = this.state;
+        fill.type = 'FillQuestion';
+        if (questionId > 0) {
+            fill.id = questionId
         }
 
-        this.trueFalseService.createTrueFalse(examId, trueFalse)
+        this.fillService.createFillQuestion(examId, fill)
         this.props.navigation
             .navigate("WidgetList")
     }
 
-    deleteTrueFalseQuestion() {
+    deleteFillQuestion() {
         const {navigation} = this.props;
         const questionId = navigation.getParam("questionId")
-
-        this.trueFalseService.deleteTrueFalseQuestion(questionId);
+        this.fillService.deleteFillQuestion(questionId);
         this.props.navigation
-            .navigate("WidgetList", {lessonId: this.state.lessonId});
+            .navigate("WidgetList");
     }
 
     deleteRequired() {
@@ -68,7 +69,7 @@ class TrueOrFalseQuestionWidget extends Component {
             return (
                 <TouchableHighlight
                     style={styles.button}
-                    onPress={this.deleteTrueFalseQuestion}>
+                    onPress={this.deleteFillQuestion}>
                     <Text>
                         Delete
                     </Text>
@@ -80,7 +81,7 @@ class TrueOrFalseQuestionWidget extends Component {
                     style={styles.button}
                     onPress={() => {
                         this.props.navigation
-                            .navigate("WidgetList", {lessonId: this.state.lessonId})
+                            .navigate("WidgetList")
                     }}>
                     <Text>
                         Cancel
@@ -94,15 +95,65 @@ class TrueOrFalseQuestionWidget extends Component {
         this.setState(newState)
     }
 
+    getBlanks() {
+        return (
+            <Input/>
+        )
+    }
+
+    generateBlanks() {
+        console.log("generating Blanks");
+        var str = this.state.blanks;
+
+        var regExp = /\[([^)]+)\]/;
+        str = str.replace(new RegExp(regExp), "kkkk")
+        var matches = str.split(' ');
+
+        return (
+            <View style={{flexDirection: 'row'}}>
+                {matches.map((item, index) => {
+                    console.log(item);
+                        if (item.toString() === 'kkkk') {
+                            return (
+                                <TextInput key={index}>
+
+                                </TextInput>
+                            )
+                        }
+                        else {
+                            return (
+                                <Text>
+                                    {item + " "}
+                                </Text>
+                            )
+                        }
+                    }
+                )
+                }
+            </View>
+        );
+    }
+
+    generateBlankss() {
+        console.log("generating Blanks");
+        var str = 'Hello';
+
+        return (
+            <Text
+                dangerouslySetInnerHTML={{__html: str.replace('Hello', <TextInput/>)}}>
+                age
+            </Text>
+        );
+    }
+
     render() {
-        // let trueFalse = this.state.trueFalse
+
         return (
             <ScrollView>
                 <FormLabel>Title</FormLabel>
                 <FormInput onChangeText={
                     text => this.updateForm({title: text})
                 }/>
-
                 <FormValidationMessage>
                     Title is required
                 </FormValidationMessage>
@@ -119,16 +170,22 @@ class TrueOrFalseQuestionWidget extends Component {
                 <FormInput onChangeText={
                     text => this.updateForm({points: text})
                 }/>
-
                 <FormValidationMessage>
-                    Description is required
+                    Points are required
                 </FormValidationMessage>
 
-                <CheckBox onPress={() => this.updateForm(() =>
-                    this.updateForm({isTrue: !this.state.isTrue}))
-                }
-                          checked={this.state.isTrue}
-                          title='The answer is true'/>
+                <TextInput multiline={true}
+                           style={{
+                               height: 100,
+                               backgroundColor: 'white',
+                               borderBottomWidth: 0,
+                               borderWidth: 2
+                           }}
+                           placeholder={"Existing original text:" + this.state.blanks}
+                           onChangeText={
+                               text => this.updateForm({blanks: text})
+                           }
+                />
 
                 <Text style={styles.niceText}>Preview</Text>
 
@@ -138,11 +195,12 @@ class TrueOrFalseQuestionWidget extends Component {
                 </View>
 
                 <Text style={styles.description}>{this.state.description}</Text>
-                <CheckBox checked={false} title='Select true or false!'/>
+
+                {this.generateBlanks()}
 
                 <TouchableHighlight
                     style={styles.button}
-                    onPress={this.createTrueFalseQuestion}>
+                    onPress={this.createFillQuestion}>
                     <Text>
                         Submit
                     </Text>
@@ -191,5 +249,5 @@ const styles = StyleSheet.create({
     }
 });
 
-export default TrueOrFalseQuestionWidget
+export default FillInTheBlanksQuestionWidget
 

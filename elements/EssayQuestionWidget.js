@@ -151,7 +151,7 @@ class FillQuestionEditor extends React.Component {
                                })
                            }/>
 
-                <TextInput style={{textAlign: 'center', justifyContent: 'center'}}>Preview</TextInput>
+                <Text style={{textAlign: 'center', justifyContent: 'center'}}>Preview</Text>
 
                 <View style={styles.rows}>
                     <Text style={styles.niceText}>
